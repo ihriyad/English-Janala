@@ -1,12 +1,298 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Janala</title>
-    <link rel="stylesheet" href="./styles/style.css">
-</head>
-<body>
-    This is Enlish Janala
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>English Janala-Learn Anytime</title>
+    <link rel="shortcut icon" href="./assets/book3.png" type="image/x-icon" />
+
+    <!--font Awesome CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- tailwind -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- link css -->
+    <link rel="stylesheet" href="./styles/style.css" />
+  </head>
+
+  <body class="bg-[#0d0f14] text-slate-100 min-h-screen">
+    <!-- header & nav -->
+    <header>
+      <nav
+        class="navbar flex justify-between items-center px-6 py-4 bg-[#13151c] border-b border-white/5 shadow-lg"
+      >
+        <!-- Nav Left -->
+        <div class="nav-left flex items-center gap-2">
+          <span class="font-semibold text-lg text-white tracking-wide"
+            >English</span
+          >
+          <img src="./assets/book3.png" class="w-7 h-7" alt="" />
+          <span class="font-bangla font-semibold text-lg text-[var(--accent)]"
+            >জানালা</span
+          >
+        </div>
+
+        <!-- nav right desktop nav -->
+        <div class="nav-right flex items-center">
+          <div class="hidden md:flex gap-3">
+            <button class="nav-btn">
+              <i class="fa-solid fa-circle-question"></i> FAQ
+            </button>
+            <button class="nav-btn">
+              <i class="fa-brands fa-leanpub"></i> Learn
+            </button>
+            <button class="nav-btn nav-btn-danger">
+              <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </button>
+          </div>
+
+          <!-- Mobile menu -->
+          <div class="md:hidden">
+            <button
+              id="menuBtn"
+              class="text-2xl text-slate-300 hover:text-white transition-colors"
+            >
+              <i class="fa-solid fa-bars"></i>
+            </button>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!--hero -->
+      <section
+        class="flex flex-col-reverse md:flex-row justify-between items-center px-8 py-16 max-w-7xl mx-auto gap-10"
+      >
+        <!-- hero Left -->
+        <div class="hero-left flex-1 max-w-xl">
+          <h2
+            class="text-center md:text-start text-5xl font-bold mb-6 leading-tight"
+          >
+            <span class="text-cyan-400">English</span> is Easy!!
+          </h2>
+          <p
+            class="font-bangla font-medium leading-loose text-[18px] text-slate-300 text-justify mb-8"
+          >
+            আজ থেকেই আপনার ভাষা শেখার যাত্রা শুরু করুন। আপনি যদি নতুন হন অথবা
+            আপনার দক্ষতা বাড়াতে চান, আমাদের Interactive Lessons আপনাকে নিয়ে
+            যাবে অন্য একটি Level এ!
+          </p>
+
+          <!-- form -->
+          <form class="max-w-[380px] mx-auto md:mx-0 space-y-5">
+            <fieldset class="field">
+              <legend>Your Name</legend>
+              <input type="text" placeholder="Enter your Name" required />
+            </fieldset>
+            <fieldset class="field">
+              <legend>Email</legend>
+              <input type="email" placeholder="Enter your email" required />
+            </fieldset>
+            <!-- form btn -->
+            <button
+              type="submit"
+              class="w-full py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 active:scale-95 transition-all text-[#0d0f14] font-bold text-sm tracking-wide"
+            >
+              Get Started
+            </button>
+          </form>
+        </div>
+
+        <!-- Hero Right -->
+        <div class="hero-right flex-1 flex justify-center">
+          <div class="hero-img-wrapper">
+            <img
+              src="./assets/hero-student.png"
+              alt="student"
+              class="w-full max-w-md drop-shadow-2xl"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!--get lesson btns from api section -->
+      <section class="py-12 px-4 bg-[#13151c] border-y border-white/5">
+        <h2 class="text-center text-4xl font-bold mb-10">
+          <span class="text-cyan-400">Let's</span> Learn Vocabularies
+        </h2>
+        <!--  lessonContainer  -->
+        <div
+          id="lessonContainer"
+          class="lesson-container flex justify-center items-center flex-wrap gap-3 max-w-5xl mx-auto"
+        ></div>
+      </section>
+
+      <!-- spinner -->
+      <section
+        id="spinner"
+        class="flex justify-center items-center py-12 hidden"
+      >
+        <div class="spinner-ring"></div>
+      </section>
+
+      <!--search bar  -->
+      <section class="flex justify-center items-center py-8 px-4 bg-[#0d0f14]">
+        <div
+          class="flex items-center gap-2 bg-[#1a1d26] px-3 py-2 rounded-xl border border-white/10 shadow-lg w-[90%] sm:w-full max-w-md"
+        >
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="Search Words..."
+            class="flex-1 min-w-0 outline-none text-sm text-slate-200 placeholder-slate-500 bg-transparent px-2 py-1.5"
+          />
+          <!-- search btn -->
+          <button
+            id="searchBtn"
+            class="shrink-0 bg-cyan-500 hover:bg-cyan-400 active:scale-95 transition-all text-[#0d0f14] font-bold text-sm px-3 sm:px-4 py-2 rounded-lg"
+          >
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </div>
+      </section>
+
+      <!-- get words from api container-->
+      <section
+        id="word-container"
+        class="px-6 py-10 bg-[#0d0f14] min-h-[300px]"
+      >
+        <div
+          id="load-words"
+          class="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-7xl mx-auto"
+        >
+          <!-- default section if no word-->
+          <div class="font-bangla bg-[#13151c] text-center col-span-3 py-24 space-y-4">
+            <div ><img class="mx-auto" src="./assets/alert-error.png" alt=""></div>
+            <p class="text-slate-500 font-medium text-sm">
+              আপনি এখনো কোন Lesson Select করেন নি
+            </p>
+            <h2 class="font-bold text-3xl text-slate-300">
+              একটি Lesson Select করুন।
+            </h2>
+          </div>
+        </div>
+      </section>
+
+      <!-- modal/pop up-->
+      <div
+        id="word_modal"
+        class="modal-overlay fixed inset-0 bg-black/70 hidden items-center justify-center z-50 p-4"
+      >
+        <div
+          class="modal-box bg-[#1a1d26] border border-white/10 rounded-2xl shadow-2xl w-full max-w-lg"
+        >
+          <!--modal details container-->
+          <div id="detail-container" class="p-6"></div>
+
+          <!-- modal complete btn-->
+          <div class="flex justify-start px-6 pb-5">
+            <button
+              id="closeModal"
+              class="closeModal px-5 py-2 rounded-xl text-slate-200 text-sm font-medium transition-colors"
+            >
+              Completed Learning
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- faq section -->
+      <section class="faq-section py-20 px-6 bg-[#0d0f14]">
+        <div class="max-w-3xl mx-auto">
+          <h2 class="text-center text-4xl font-bold mb-12">
+            <span class="text-cyan-400">Frequently</span> Asked Questions
+          </h2>
+          <div class="faq-list" id="faqList">
+            <details class="faq-item">
+              <summary>
+                1. How can I start learning English on this website?
+              </summary>
+              <p>
+                You can start by exploring our beginner lessons, interactive
+                exercises, and quizzes.
+              </p>
+            </details>
+
+            <details class="faq-item">
+              <summary>2. Is this website free to use?</summary>
+              <p>Yes! English Janala is completely free.</p>
+            </details>
+
+            <details class="faq-item">
+              <summary>3. Do I need to create an account?</summary>
+              <p>No account is needed to browse and learn.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- footer-->
+      <footer class="bg-[#0d0f14] border-t border-white/8 px-6 py-12">
+        <div
+          class="flex justify-between items-center flex-wrap gap-6 pb-8 border-b border-white/8"
+        >
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-white font-semibold text-lg">English</span>
+              <img src="./assets/book3.png" class="w-6 h-6" />
+              <span class="text-[var(--accent)] font-semibold text-lg font-bangla"
+                >জানালা</span
+              >
+            </div>
+            <p class="text-slate-400 text-sm font-bangla">ভাষাটি শিখুন সহজে!</p>
+            <p class="text-slate-500 text-xs mt-1">
+              Providing Ed-Tech Applications Since 2026
+            </p>
+          </div>
+
+          <!-- links -->
+          <div class="space-y-3">
+            <h2>Connect Me</h2>
+            <div class="flex gap-3">
+               
+              <a
+                href="https://www.linkedin.com/in/ihriyad/"
+                target="_blank"
+                class="w-10 h-10 bg-[var(--accent)] rounded-lg flex items-center justify-center text-[#0d0f14]"
+              >
+                <i class="fa-brands fa-linkedin text-2xl"></i>
+              </a>
+              <a
+                href="https://github.com/ihriyad"
+                target="_blank"
+                class="w-10 h-10 bg-[var(--accent)] rounded-lg flex items-center justify-center text-[#0d0f14]"
+              >
+                <i class="fa-brands fa-github text-2xl"></i>
+              </a>
+              <a
+                href="https://www.facebook.com/ihriyad007"
+                target="_blank"
+                class="w-10 h-10 bg-[var(--accent)] rounded-lg flex items-center justify-center text-[#0d0f14]"
+              >
+                <img src="./assets/fb-thumb.png" alt="">
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-[var(--accent)] text-xs pt-6">
+          ihriyad© 2026 All rights reserved.
+        </p>
+      </footer>
+    </main>
+    <!--  external JS files -->
+ 
+    <script src="./scripts/1.load-lesson-btn-api.js"></script>
+    <script src="./scripts/2.display-words-api.js"></script>
+    <script src="./scripts/3.modal-details-api.js"></script>
+    <script src="./scripts/4.search-spinner-voice-api.js"></script>
+  </body>
 </html>
